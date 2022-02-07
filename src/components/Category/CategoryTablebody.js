@@ -8,21 +8,36 @@ import Button from "@mui/material/Button";
 import requests from "../../service/category";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { modalStyle } from "./modalStyle";
 
 const CategoryTablebody = ({ handleOpenEditCategory, data, changeLoading }) => {
   const [openAlert, setOpenAlert] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [id, setId] = useState("");
+  const openDelete = (itemId) => {
+    setOpenDeleteModal(true);
+    setId(itemId);
+  };
+
+  const handleClose = () => {
+    setOpenDeleteModal(false);
+  };
 
   const handleAlertClose = () => {
     setOpenAlert(false);
   };
 
-  const deleteCategory = (id) => {
+  const deleteCategory = () => {
     requests
       .deleteCategory(id)
       .then((result) => {
         if (result.status === 200) {
           changeLoading();
           setOpenAlert(true);
+          setOpenDeleteModal(false);
         }
       })
       .catch((error) => {
@@ -65,7 +80,7 @@ const CategoryTablebody = ({ handleOpenEditCategory, data, changeLoading }) => {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    deleteCategory(item.id);
+                    openDelete(item.id);
                   }}
                 >
                   Delete
@@ -75,6 +90,41 @@ const CategoryTablebody = ({ handleOpenEditCategory, data, changeLoading }) => {
           </TableRow>
         ))}
       </TableBody>
+      <Modal
+        open={openDeleteModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            O`chirishni hohlaysizmi?
+          </Typography>
+          <span
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              padding: "20px 0",
+            }}
+          >
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => deleteCategory()}
+            >
+              Ok
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => handleClose()}
+            >
+              Cansle
+            </Button>
+          </span>
+        </Box>
+      </Modal>
       <Snackbar
         open={openAlert}
         autoHideDuration={1500}

@@ -16,7 +16,6 @@ function App() {
         <Route path="user" element={<User />} />
         <Route path="category" element={<Category />} />
         <Route path="news" element={<News />} />
-
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </>
