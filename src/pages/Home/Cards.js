@@ -22,7 +22,7 @@ const Cards = () => {
       <Box style={{marginTop: 60}} sx={{ flexGrow: 1 }}>
       <Grid container spacing={8}>
         <Grid item xs={4}>
-        <Cardlar rangi='orange' yol='barchayangiliklar' rasmi='https://sklad.freeimg.ru/rsynced_images/news-3774160_1280.png' haqida='Barcha Yangiliklar'/> 
+        <Cardlar rangi='orange' yol='news' rasmi='https://sklad.freeimg.ru/rsynced_images/news-3774160_1280.png' haqida='Barcha Yangiliklar'/> 
         </Grid>
         <Grid item xs={4}>
         <Cardlar yol='user' rasmi='https://cdn-icons-png.flaticon.com/512/236/236832.png'  rangi='rgb(60, 179, 113)'  haqida='Foydalanuvchilar'/> 
