@@ -1,0 +1,6 @@
+.category__top__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 100px;
+}
