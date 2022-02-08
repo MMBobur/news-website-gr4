@@ -93,6 +93,7 @@ const Index = () => {
       })
       .catch((error) => console.log(error));
   }, [loading]);
+
   return (
     <>
       <div className="user__top__container">
