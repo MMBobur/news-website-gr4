@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Input } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 const Edit = () => {
   let navigate = useNavigate();
@@ -38,16 +38,22 @@ const Edit = () => {
       .catch((err) => alert(err));
   };
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <p
         style={{
           paddingTop: 10,
-          backgroundColor: "#acf",
-          color: "white",
-          borderRadius: 5,
+          color: "#1976c0",
           textAlign: "center",
-          marginBottom: -25,
-          marginLeft: 50,
+          fontSize: 25,
+          fontWeight: 600,
+          borderRadius: 5,
           width: 150,
           height: 30,
         }}
@@ -59,53 +65,81 @@ const Edit = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
           paddingTop: 2,
+          width: 500,
         }}
       >
-        <Input
+        <TextField
+          sx={{ mt: 1 }}
+          fullWidth
+          label="Title"
           color="primary"
-          style={{ width: 400, paddingTop: 5 }}
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Input
+        <TextField
+          sx={{ mt: 1 }}
+          label="Text"
           color="primary"
-          style={{ width: 400, paddingTop: 5 }}
+          fullWidth
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <Input
+        <TextField
+          sx={{ mt: 1 }}
+          label="Author"
           color="primary"
-          style={{ width: 400, paddingTop: 5 }}
+          fullWidth
           type="text"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
 
-        <Input
+        <TextField
+          sx={{ mt: 1 }}
+          label="Date"
           color="primary"
-          style={{ width: 400, paddingTop: 5 }}
+          fullWidth
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <Input
+        <TextField
+          sx={{ mt: 1 }}
           color="primary"
-          style={{ width: 400, paddingTop: 5 }}
+          fullWidth
           type="file"
           name="file"
           src={image}
           onChange={(e) => setImage(e.target.files[0])}
         />
-        <Button color="error" type="submit" onClick={() => navigate(`/News`)}>
-          Cancel
-        </Button>
-        <Button color="success" type="submit" onClick={() => upDate()}>
-          Save Changes
-        </Button>
+        <span
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: "20px 0",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            type="submit"
+            onClick={() => upDate()}
+          >
+            Save Changes
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            type="submit"
+            onClick={() => navigate(`/News`)}
+          >
+            Close
+          </Button>
+        </span>
       </div>
     </div>
   );
