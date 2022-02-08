@@ -10,12 +10,16 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
+import Autocomplete from "@mui/material/Autocomplete";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@mui/material";
+
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const style = {
   position: "absolute",
@@ -39,8 +43,25 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
 
   const [image, setImage] = useState(undefined);
 
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/category`)
+      .then((resp) => {
+        setCategory(resp.data);
+      })
+      .catch((err) => alert(err));
+  }, []);
+
   const handleChange = (prop) => (event) => {
     setValue({ ...value, [prop]: event.target.value });
+  };
+
+  const [categoryId, setCategoryId] = useState(undefined);
+
+  const handleChangeSelect = (event) => {
+    setCategoryId(event.target.value);
   };
 
   const handle_image = (e) => {
@@ -48,7 +69,9 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
   };
 
   const SendDate = () => {
+    console.log(categoryId);
     let formData = new FormData();
+    formData.append("category_id", categoryId);
     formData.append("title", value.title);
     formData.append("text", value.text);
     formData.append("author", value.author);
@@ -61,30 +84,45 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // const top100Films = [
+  //   { label: "The Shawshank Redemption" },
+  //   { label: "The Godfather" },
+  //   { label: "The Godfather: Part II" },
+  //   { label: "The Dark Knight" },
+  // ];
   return (
-    <div>
-      <h4
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
         style={{
-          paddingTop: 5,
-          backgroundColor: "#acf",
-          color: "white",
-          borderRadius: 5,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
           textAlign: "center",
-          marginBottom: -25,
-          marginLeft: 50,
-          width: 150,
-          height: 30,
+          paddingRight: 10,
+          paddingLeft: 10,
+          paddingTop: 10,
+          borderRadius: 5,
+          color: "white",
         }}
       >
-        News Page
-      </h4>
-      <Button
-        color="primary"
-        style={{ marginLeft: 1150, marginTop: -5 }}
-        onClick={handleOpen}
-      >
-        News
-      </Button>
+        <span
+          style={{
+            width: 120,
+            height: 32,
+            fontWeight: 500,
+            paddingTop: 5,
+            borderRadius: 5,
+            backgroundColor: "#1976c0",
+          }}
+        >
+          News Page
+        </span>
+
+        <Button variant="contained" onClick={handleOpen}>
+          News
+        </Button>
+      </div>
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -93,51 +131,89 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add
+            Add News
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <Input
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
               type="text"
-              placeholder="Title"
+              label="Title"
               value={value.title}
               onChange={handleChange("title")}
             />
-            <Input
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
               type="text"
-              placeholder="Text"
+              label="Text"
               value={value.text}
               onChange={handleChange("text")}
             />
-            <Input
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
               type="text"
-              placeholder="Author"
+              label="Author"
               value={value.author}
               onChange={handleChange("author")}
             />
-            <Input
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
               type="date"
-              placeholder="Add Time"
               value={value.date}
               onChange={handleChange("date")}
             />
-            <Input
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
               type="file"
               name="file"
-              placeholder="Image"
               value={value.image}
               onChange={handle_image}
             />
-            <Button color="primary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button
-              color="primary"
-              onClick={() => {
-                SendDate();
+            {/* <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={category}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField sx={{ mt: 2 }} {...params} label="Category" />
+              )}
+            /> */}
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={categoryId}
+              label="category"
+              onChange={handleChangeSelect}
+            >
+              {category.map((v) => {
+                return <MenuItem value={v.id}>{v.name}</MenuItem>;
+              })}
+            </Select>
+            <span
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: "20px 0",
               }}
             >
-              Add
-            </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  SendDate();
+                }}
+              >
+                Add
+              </Button>
+              <Button variant="contained" color="error" onClick={handleClose}>
+                Close
+              </Button>
+            </span>
           </Typography>
         </Box>
       </Modal>
@@ -173,67 +249,143 @@ const BasicTable = () => {
     });
   };
 
-  const deleteData = (id) => {
-    let Check = window.confirm("Do you want to delete ?");
-    if (Check === true) {
-      axios.delete(`http://localhost:5000/api/news/${id}`).then((v) => {
+  const [open1, setOpen1] = useState(false);
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
+  const [deleteId, setDeleteId] = useState("");
+
+  const OK = () => {
+    axios.delete(`http://localhost:5000/api/news/${deleteId}`).then((v) => {
+      console.log(v);
+      if (v.status === 200) {
+        setOpen1(false);
         setUpdate(!update);
-      });
-    } else {
-      setUpdate(!update);
-    }
+      } else {
+        setOpen1(false);
+      }
+    });
+  };
+  const NO = () => {
+    console.log("This is NO Button ");
+    handleClose1();
+  };
+  const deleteData = (id) => {
+    setDeleteId(id);
+    handleOpen1();
   };
 
   return (
-    <TableContainer component={Paper}>
-      <BasicModal SentDate={SendDate} setOpen={setOpen} open={open} />
-      <Table sx={{ minWidth: 650, marginTop: 2 }} aria-label="simple table">
-        <TableHead style={{ backgroundColor: "#acf" }}>
-          <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell align="right">Category Id</TableCell>
-            <TableCell align="right">Title</TableCell>
-            <TableCell align="right">Text</TableCell>
-            <TableCell align="right">Author</TableCell>
-            <TableCell align="right">Data</TableCell>
-            <TableCell align="right">Image</TableCell>
-            <TableCell align="right">Edit</TableCell>
-            <TableCell align="right">Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((item, index) => (
-            <TableRow
-              key={item.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+    <>
+      <Modal
+        open={open1}
+        onClose={handleClose1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            style={{ textAlign: "center", color: "darkred" }}
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          >
+            Do you want to delete ?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <span
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                padding: "20px 0",
+              }}
             >
-              <TableCell component="th" scope="row">
-                {index + 1}
+              <Button variant="contained" color="success" onClick={() => OK()}>
+                Yes
+              </Button>
+              <Button variant="contained" color="error" onClick={() => NO()}>
+                No
+              </Button>
+            </span>
+          </Typography>
+        </Box>
+      </Modal>
+
+      <TableContainer component={Paper}>
+        <BasicModal SentDate={SendDate} setOpen={setOpen} open={open} />
+        <Table sx={{ minWidth: 650, marginTop: 2 }} aria-label="simple table">
+          <TableHead style={{ backgroundColor: "#1976c0" }}>
+            <TableRow>
+              <TableCell style={{ color: "white" }}>Id</TableCell>
+              <TableCell style={{ color: "white" }} align="right">
+                Category Id
               </TableCell>
-              <TableCell align="right">{item.id}</TableCell>
-              <TableCell align="right">{item.title}</TableCell>
-              <TableCell align="right">{item.text}</TableCell>
-              <TableCell align="right">{item.author}</TableCell>
-              <TableCell align="right">{item.data}</TableCell>
-              <TableCell align="right">
-                <img src={item.image} style={{ width: 60, height: 50 }} />
+              <TableCell style={{ color: "white" }} align="right">
+                Title
               </TableCell>
-              <TableCell align="right">
-                {<EditIcon color="success" onClick={() => editData(item.id)} />}
+              <TableCell style={{ color: "white" }} align="right">
+                Text
               </TableCell>
-              <TableCell align="right">
-                {
-                  <DeleteIcon
-                    color="error"
-                    onClick={() => deleteData(item.id)}
-                  />
-                }
+              <TableCell style={{ color: "white" }} align="right">
+                Author
+              </TableCell>
+              <TableCell style={{ color: "white" }} align="right">
+                Data
+              </TableCell>
+              <TableCell style={{ color: "white" }} align="right">
+                Image
+              </TableCell>
+              <TableCell style={{ color: "white" }} align="right">
+                Edit
+              </TableCell>
+              <TableCell style={{ color: "white" }} align="right">
+                Delete
               </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.map((item, index) => (
+              <TableRow
+                key={item.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {item.id}
+                </TableCell>
+                <TableCell align="right">{item.category_id}</TableCell>
+                <TableCell align="right">{item.title}</TableCell>
+                <TableCell align="right">{item.text}</TableCell>
+                <TableCell align="right">{item.author}</TableCell>
+                <TableCell align="right">{item.data}</TableCell>
+                <TableCell align="right">
+                  <img
+                    src={item.image}
+                    alt="Img"
+                    style={{ width: 60, height: 60 }}
+                  />
+                </TableCell>
+                <TableCell align="right">
+                  {
+                    <EditIcon
+                      color="success"
+                      onClick={() => editData(item.id)}
+                    />
+                  }
+                </TableCell>
+                <TableCell align="right">
+                  {
+                    <DeleteIcon
+                      color="error"
+                      onClick={() => deleteData(item.id)}
+                    />
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 export default BasicTable;
