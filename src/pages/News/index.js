@@ -49,12 +49,10 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
     axios
       .get(`http://localhost:5000/api/category`)
       .then((resp) => {
-        
-        setCategory(resp.data)
+        setCategory(resp.data);
       })
       .catch((err) => alert(err));
   }, []);
-  
 
   const handleChange = (prop) => (event) => {
     setValue({ ...value, [prop]: event.target.value });
@@ -65,11 +63,11 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
   const handleChangeSelect = (event) => {
     setCategoryId(event.target.value);
   };
-  
+
   const handle_image = (e) => {
     setImage(e.target.files[0]);
   };
-  
+
   const SendDate = () => {
     console.log(categoryId);
     let formData = new FormData();
@@ -85,7 +83,6 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
 
   // const top100Films = [
   //   { label: "The Shawshank Redemption" },
@@ -192,10 +189,8 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
               label="category"
               onChange={handleChangeSelect}
             >
-              {category.map(v => {
-                return (
-                  <MenuItem value={v.id}>{v.name}</MenuItem>
-                );
+              {category.map((v) => {
+                return <MenuItem value={v.id}>{v.name}</MenuItem>;
               })}
             </Select>
             <span
@@ -275,7 +270,7 @@ const BasicTable = () => {
     handleClose1();
   };
   const deleteData = (id) => {
-    setDeleteId(id)
+    setDeleteId(id);
     handleOpen1();
   };
 
