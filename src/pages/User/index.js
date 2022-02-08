@@ -6,6 +6,7 @@ import Table from "@mui/material/Table";
 import Paper from "@mui/material/Paper";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 import "./user.css";
 import Tablehead from "../../components/Users/Tablehead";
@@ -30,6 +31,8 @@ const Index = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openEditAlert, setOpenEditAlert] = useState(false);
   // ==============================================
+  let navigate = useNavigate();
+
   const changeId = (userId) => {
     requests.getOneUser(userId).then((result) => {
       setUsername(result.data.username);
@@ -98,14 +101,25 @@ const Index = () => {
     <>
       <div className="user__top__container">
         <h1>Users</h1>
-        <Button
+       <div>
+       <Button
           variant="contained"
           size="large"
-          sx={{ height: "50px", marginTop: "20px" }}
+          sx={{ height: "50px", marginTop: "20px", marginRight: "20px" }}
           onClick={() => handleOpenAddNewModal()}
         >
           Add New
         </Button>
+
+        <Button
+          sx={{ height: "50px", marginTop: "20px" }}
+          variant="contained"
+          color="success"
+          onClick={() => navigate("/")}
+        >
+          Go to Home
+        </Button>
+       </div>
       </div>
 
       <div style={{ width: "90%", margin: "0 auto" }}>

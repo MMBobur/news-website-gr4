@@ -10,6 +10,7 @@ import CategoryAddModal from "../../components/Category/CategoryAddModal";
 import CategoryEditModal from "../../components/Category/CategoryEditModal";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import { useNavigate } from "react-router-dom";
 
 import requests from "../../service/category";
 
@@ -23,6 +24,8 @@ function Category() {
   const [id, setId] = useState(0);
   const [openEditAlert, setOpenEditAlert] = useState(false);
   const [openAddAlert, setOpenAddAlert] = useState(false);
+
+  let navigate = useNavigate();
 
   const handleOpenEditAlert = () => {
     setOpenEditAlert(true);
@@ -89,14 +92,24 @@ function Category() {
     <>
       <div className="category__top__container">
         <h1>Category</h1>
-        <Button
+<div>
+<Button
           variant="contained"
           size="large"
-          sx={{ height: "50px", marginTop: "20px" }}
+          sx={{ height: "50px", marginTop: "20px", marginRight: "20px" }}
           onClick={() => handleOpenAddNewCategory()}
         >
           Add New
         </Button>
+        <Button
+          sx={{ height: "50px", marginTop: "20px" }}
+          variant="contained"
+          color="success"
+          onClick={() => navigate("/")}
+        >
+          Go to Home
+        </Button>
+</div>
       </div>
       <div style={{ width: "90%", margin: "0 auto" }}>
         <TableContainer component={Paper}>

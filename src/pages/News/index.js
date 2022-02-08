@@ -83,13 +83,8 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let navigate = useNavigate();
 
-  // const top100Films = [
-  //   { label: "The Shawshank Redemption" },
-  //   { label: "The Godfather" },
-  //   { label: "The Godfather: Part II" },
-  //   { label: "The Dark Knight" },
-  // ];
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div
@@ -98,29 +93,41 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
           flexDirection: "row",
           justifyContent: "space-between",
           textAlign: "center",
-          paddingRight: 10,
-          paddingLeft: 10,
-          paddingTop: 10,
+          padding: 10,
           borderRadius: 5,
+          backgroundColor: 'orange',
           color: "white",
         }}
       >
         <span
           style={{
             width: 120,
-            height: 32,
+            height: '50px',
             fontWeight: 500,
-            paddingTop: 5,
             borderRadius: 5,
             backgroundColor: "#1976c0",
           }}
         >
-          News Page
-        </span>
+         <p style={{marginTop: 12}}> News Page </p>
+         </span>
 
-        <Button variant="contained" onClick={handleOpen}>
-          News
-        </Button>
+        <div>
+          <Button
+            sx={{ height: "50px", marginRight: "20px" }}
+            variant="contained"
+            onClick={handleOpen}
+          >
+            News
+          </Button>
+          <Button
+            sx={{ height: "50px",}}
+            variant="contained"
+            color="success"
+            onClick={() => navigate("/")}
+          >
+            Go to Home
+          </Button>
+        </div>
       </div>
 
       <Modal
@@ -130,9 +137,11 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add News
-          </Typography>
+          <div>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Add News
+            </Typography>
+          </div>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <TextField
               sx={{ mt: 2 }}
@@ -313,7 +322,7 @@ const BasicTable = () => {
 
       <TableContainer component={Paper}>
         <BasicModal SentDate={SendDate} setOpen={setOpen} open={open} />
-        <Table sx={{ minWidth: 650, marginTop: 2 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead style={{ backgroundColor: "#1976c0" }}>
             <TableRow>
               <TableCell style={{ color: "white" }}>Id</TableCell>
