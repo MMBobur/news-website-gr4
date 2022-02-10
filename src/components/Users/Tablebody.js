@@ -10,6 +10,7 @@ import Modal from "@mui/material/Modal";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { style } from "./modalStyle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import requests from "../../service/user";
 
 const Tablebody = ({ users, changeLoading, changeId }) => {
@@ -60,12 +61,15 @@ const Tablebody = ({ users, changeLoading, changeId }) => {
                 <span className="edit__icon__container">
                   <EditIcon
                     fontSize="large"
+                    color="success"
                     onClick={() => changeId(user.id)}
                   />
                 </span>
-                <Button variant="contained" onClick={() => handleOpen(user.id)}>
-                  Delete
-                </Button>
+                <DeleteIcon
+                  fontSize="large"
+                  color="error"
+                  onClick={() => handleOpen(user.id)}
+                />
               </span>
             </TableCell>
           </TableRow>
@@ -111,6 +115,7 @@ const Tablebody = ({ users, changeLoading, changeId }) => {
             <Button
               variant="contained"
               size="large"
+              color="error"
               onClick={() => handleClose()}
             >
               Cansle

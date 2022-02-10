@@ -95,21 +95,21 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
           textAlign: "center",
           padding: 10,
           borderRadius: 5,
-          backgroundColor: 'orange',
+
           color: "white",
         }}
       >
         <span
           style={{
             width: 120,
-            height: '50px',
+            height: "50px",
             fontWeight: 500,
             borderRadius: 5,
             backgroundColor: "#1976c0",
           }}
         >
-         <p style={{marginTop: 12}}> News Page </p>
-         </span>
+          <p style={{ marginTop: 12 }}> News Page </p>
+        </span>
 
         <div>
           <Button
@@ -120,7 +120,7 @@ const BasicModal = ({ SentDate, open, setOpen }) => {
             News
           </Button>
           <Button
-            sx={{ height: "50px",}}
+            sx={{ height: "50px" }}
             variant="contained"
             color="success"
             onClick={() => navigate("/")}
@@ -377,6 +377,7 @@ const BasicTable = () => {
                   {
                     <EditIcon
                       color="success"
+                      fontSize="large"
                       onClick={() => editData(item.id)}
                     />
                   }
@@ -385,6 +386,7 @@ const BasicTable = () => {
                   {
                     <DeleteIcon
                       color="error"
+                      fontSize="large"
                       onClick={() => deleteData(item.id)}
                     />
                   }
