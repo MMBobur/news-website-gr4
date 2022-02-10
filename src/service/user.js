@@ -1,7 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  getAllUsers: () => axios.post('http://localhost:8000/api/user/'),
-  postUser: (data) => axios.post('http://localhost:8000/api/user/', data),
+  getAllUsers: () => axios.get("http://localhost:5000/api/users/"),
+  getOneUser: (id) => axios.get(`http://localhost:5000/api/users/${id}`),
+  addNewUser: (data) => axios.post("http://localhost:5000/api/users/", data),
+  updateUser: (data, id) =>
+    axios.put(`http://localhost:5000/api/users/${id}`, data),
+  deleteUser: (id) => axios.delete(`http://localhost:5000/api/users/${id}`),
 };
