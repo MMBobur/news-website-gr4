@@ -15,31 +15,25 @@ import Cards from "./Cards";
 // import Foydalanuvchilar from "./Foydalanuvchilar";
 // import Hammasi from "./Hammasi";
 
-
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import axios from "axios";
 const drawerWidth = 240;
 
-
-
-
-
-
 const HomeDrawer = (props) => {
   useEffect(() => {
-    axios.get('http://localhost:5000/api/news').then((response) => {
+    axios.get("http://localhost:5000/api/news").then((response) => {
       console.log(response.data);
-    })
-  }, [])
+    });
+  }, []);
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false)
+  const [mobileOpen, setMobileOpen] = React.useState(false);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         style={{
-          borderRadius: "70px",
+          borderRadius: "20px",
           marginTop: 10,
           backgroundColor: "#00cc99",
         }}
@@ -48,14 +42,22 @@ const HomeDrawer = (props) => {
           <Typography variant="h6" noWrap component="div">
             Qovoq TV yangiliklari
           </Typography>
-         <div style={{paddingLeft: 1000}}>
-         <Button style={{borderRadius: '70px', marginRight: '20px'}} variant="contained" startIcon={<VpnKeyIcon />}>
-            Sign Up
-          </Button>
-          <Button style={{borderRadius: '70px'}} variant="contained" endIcon={<LogoutIcon />}>
-            Log Out
-          </Button>
-         </div>
+          <div style={{ paddingLeft: 1000 }}>
+            <Button
+              style={{ borderRadius: "15px", marginRight: "20px" }}
+              variant="contained"
+              startIcon={<VpnKeyIcon />}
+            >
+              Sign Up
+            </Button>
+            <Button
+              style={{ borderRadius: "15px" }}
+              variant="contained"
+              endIcon={<LogoutIcon />}
+            >
+              Log Out
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
 
@@ -65,10 +67,9 @@ const HomeDrawer = (props) => {
         style={{ borderRadius: "20px" }}
       >
         <Toolbar />
-         <Routes>
+        <Routes>
           <Route path="/" element={<Cards />} />
-
-        </Routes> 
+        </Routes>
       </Box>
     </Box>
   );

@@ -11,6 +11,7 @@ import Alert from "@mui/material/Alert";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { modalStyle } from "./modalStyle";
 
 const CategoryTablebody = ({ handleOpenEditCategory, data, changeLoading }) => {
@@ -75,16 +76,15 @@ const CategoryTablebody = ({ handleOpenEditCategory, data, changeLoading }) => {
                   className="edit__icon__container"
                   onClick={() => handleOpenEditCategory(item.id)}
                 >
-                  <EditIcon fontSize="large" />
+                  <EditIcon fontSize="large" color="success" />
                 </span>
-                <Button
-                  variant="contained"
+                <DeleteIcon
+                  fontSize="large"
+                  color="error"
                   onClick={() => {
                     openDelete(item.id);
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </span>
             </TableCell>
           </TableRow>
@@ -118,6 +118,7 @@ const CategoryTablebody = ({ handleOpenEditCategory, data, changeLoading }) => {
             <Button
               variant="contained"
               size="large"
+              color="error"
               onClick={() => handleClose()}
             >
               Cansle
