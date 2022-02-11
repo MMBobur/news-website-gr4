@@ -1,0 +1,12 @@
+.user__top__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 100px;
+  @media screen (max-width: 550px) {
+    padding: 50px;
+  }
+}
+.edit__icon__container:hover {
+  cursor: pointer;
+}
