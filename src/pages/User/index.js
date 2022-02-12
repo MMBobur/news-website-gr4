@@ -101,15 +101,16 @@ const Index = () => {
     <>
       <div className="user__top__container">
         <h1>Users</h1>
-       <div>
-       <Button
+        <Button
           variant="contained"
           size="large"
-          sx={{ height: "50px", marginTop: "20px", marginRight: "20px" }}
+          sx={{ height: "50px", marginTop: "20px" }}
+
           onClick={() => handleOpenAddNewModal()}
         >
           Add New
         </Button>
+
 
         <Button
           sx={{ height: "50px", marginTop: "20px" }}
